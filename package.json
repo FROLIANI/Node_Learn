@@ -4,7 +4,8 @@
   "description": " Backend sample project OF nODE JS API using Express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,16 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
-    "express": "^4.19.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-crypto": "^0.0.1",
+    "express-jwt": "^8.4.1",
+    "express-validator": "^7.1.0",
+    "mysql2": "^3.10.1",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"

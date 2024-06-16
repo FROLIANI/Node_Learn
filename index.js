@@ -4,26 +4,21 @@ const cookieParser = require('cookie-parser');
 const db = require('./models/dbhelper');
 const authRoute = require('./routes/auth');
 
-//Register App
+// Register App
 const app = express(); 
 
-//Database Connection
+// Database Connection
 db.connection();
 
-app.use(bodyParser());
-app.use(bodyParser.urlencoded({
-    extended: true,
-})
-)
-
-//Route
-app.use('/api/auth', authRoute)
-
-//cokie parser
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const port = process.env.PORT
-app.listen(port,()=>{
-    console.log(`app is running on port ${port}`);
+// Route  
+app.use('/api/auth', authRoute);
 
-})
+const port = process.env.PORT || 8082;
+app.listen(port, () => {
+    console.log(`App is running on port ${port}`);
+});

@@ -1,6 +1,8 @@
 const { registration,login } = require('../models/auths');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
+const { validationResult } = require('express-validator');
+
 
 exports.register = async (req, res) => {
     const { username, password } = req.body;
@@ -12,7 +14,7 @@ exports.register = async (req, res) => {
         });
     }
 
-    // Encrypt data
+    // Encrypt password using salt
     const salt = uuidv4();
     const encryptedPassword = crypto
         .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
@@ -30,7 +32,7 @@ exports.register = async (req, res) => {
     }
 };
 
-//login
+//login Function
 exports.login = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -54,11 +56,9 @@ exports.login = async (req, res) => {
             return res.status(401).json({ error: "Unauthorized" });
         }
 
-        const token = jwt.sign(
-            { username: userObj.dataValues.username },
-            'yourSecretKey', // Use a secure secret key and store it securely
-            { expiresIn: '1h' }
-        );
+        const token = crypto
+            .pbkdf2Sync(password, userObj.dataValues.username.toString(), 1000, 64, 'sha512')
+            .toString('hex');
 
         return res.status(200).json({
             message: "Authenticated",
@@ -70,4 +70,3 @@ exports.login = async (req, res) => {
         return res.status(500).json({ error: "Login failed" });
     }
 };
- 
